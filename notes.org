@@ -1,0 +1,41 @@
+* Cards
+  - green, y, blue, red
+
+  - Total 108 cards
+  - 0 (1 each color) = 4
+  - 1-9 (2 each) = 18*4 = 72
+  - +2, skip, reverse = 3*2*4 = 24
+  - +4, color change = 8
+
+* Rules
+  - Start with 7 cards
+  - Match color/number or wild cards or draw a card
+  - Say UNO in 2nd last card otherwise on caught draw 6.
+  - Get rid of all cards to win
+
+* Implementation
+** Testing
+   - Self play with other older versions
+
+** Info available
+   - How many cards are left for each player
+   - Cards that have been played
+   - Own cards
+
+** Strategy
+*** V1
+    - Play a matching card/skip
+*** V2
+    - Save best cards
+    - Try to increase Neighbors cards if too low
+*** V3
+    - Count cards
+
+#+BEGIN_SRC dot :file execution_flow.png :cmdline -Kdot -Tpng
+digraph execution {
+  'hand,top' -> 1
+}
+#+END_SRC
+
+#+RESULTS:
+[[file:execution_flow.png]]
