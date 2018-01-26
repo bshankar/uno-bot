@@ -94,6 +94,7 @@ class Game {
       if (this.players[this.currentPlayer].hand[i]['value'].startsWith(stringToMatch)) {
         const card = this.players[this.currentPlayer].hand[i]
         this.players[this.currentPlayer].hand.splice(i, 1)
+        this.drawCount += card.value === '+2' ? 2 : 4
         this.currentColor = stringToMatch === '+4' ? this.getRandColor : this.currentColor
         return card
       }
