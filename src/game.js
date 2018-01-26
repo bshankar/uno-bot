@@ -23,11 +23,11 @@ class Game {
 
   play (attempted = 0) {
     if (attempted > 1) return
-    const card = this.players[this.currentPlayer].choose(this.top)
+    const card = this.players[this.currentPlayer].choose(this.top, undefined, this.drawCount)
     if (card !== undefined) this.playCard(card)
     else {
-      this.deck.draw(this.drawCount || 1)
-      this.play(attempted + 1)
+      this.players[this.currentPlayer].hand.concat(this.deck.draw(this.drawCount || 1))
+      if (this.top.value[0] !== '+') this.play(attempted + 1)
     }
   }
 
@@ -71,7 +71,7 @@ class Game {
         }
       }
     } else {
-      this.players[this.currentPlayer].hand.concat(this.deck.draw(1))
+      this.players[this.currentPlayer].hand.concat(this.deck.draw(this.drawCount))
       this.currentPlayer = (this.currentPlayer + 1) % this.players.length
     }
   }
