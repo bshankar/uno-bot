@@ -51,23 +51,29 @@ class Game {
   }
 
   drawTwoOrFour () {
-    if (this.top['value'] === '+2') {
-      this.drawCount += 2
-    }
-    if (this.top['value'] === '+4') {
-      this.drawCount += 4
-    }
     const numberOfCards = this.players[this.currentPlayer].hand.length
-    for (let i = 0; i < numberOfCards; i++) {
-      if (this.players[this.currentPlayer].hand[i]['value'][0] === '+') {
-        this.top = this.players[this.currentPlayer].hand[i]
-        this.players[this.currentPlayer].hand.splice(i, 1)
-        this.currentPlayer = (this.currentPlayer + 1) % this.players.length
-        return
+    if (this.top.value === '+2') {
+      this.drawCount += 2
+      for (let i = 0; i < numberOfCards; i++) {
+        if (this.players[this.currentPlayer].hand[i]['value'][0] === '+') {
+          this.top = this.players[this.currentPlayer].hand[i]
+          this.players[this.currentPlayer].hand.splice(i, 1)
+          this.currentPlayer = (this.currentPlayer + 1) % this.players.length
+        }
       }
+    } else if (this.top.value === '+4') {
+      this.drawCount += 4
+      for (let i = 0; i < numberOfCards; i++) {
+        if (this.players[this.currentPlayer].hand[i]['value'][0] === '+4') {
+          this.top = this.players[this.currentPlayer].hand[i]
+          this.players[this.currentPlayer].hand.splice(i, 1)
+          this.currentPlayer = (this.currentPlayer + 1) % this.players.length
+        }
+      }
+    } else {
+      this.players[this.currentPlayer].hand.concat(this.deck.draw(1))
+      this.currentPlayer = (this.currentPlayer + 1) % this.players.length
     }
-    this.players[this.currentPlayer].hand.concat(this.deck.draw(1))
-    this.currentPlayer = (this.currentPlayer + 1) % this.players.length
   }
 }
 
