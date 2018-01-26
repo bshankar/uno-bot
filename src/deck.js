@@ -7,32 +7,28 @@ class Deck {
   }
 
   cardInit () {
-    this.cards = {}
-    let colors = ['red', 'blue', 'yellow', 'green']
-    let remvalues = ['+2', 'reverse', 'skip']
-    let wildcards = ['+4', 'colorChange']
+    this.cards = []
+    const colors = ['red', 'blue', 'yellow', 'green']
+    const remvalues = ['+2', 'reverse', 'skip']
+    const wildcards = ['+4', 'colorChange']
     for (let k = 0; k < 2; k++) {
-      for (let i = 1; i < 10; i ++) {
+      for (let i = 1; i < 10; i++) {
         for (let j = 0; j < 4; j++) {
-          this.cards['color'] = colors[j]
-          this.cards['value'] = i + ''
+          this.cards.push(new Card(colors[j], i + ''))
         }
       }
       for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 3; j++) {
-          this.cards['color'] = colors[j]
-          this.cards['value'] = remvalues[i]
+          this.cards.push(new Card(colors[j], remvalues[i]))
         }
       }
     }
     for (let i = 0; i < 4; i++) {
-      this.cards['color'] = colors[i]
-      this.cards['value'] = '0'
+      this.cards.push(new Card(colors[i], '0'))
     }
     for (let i = 0; i < 4; i++) {
       for (let j = 0; j < 2; j++) {
-        this.cards['color'] = 'anycolor'
-        this.cards['value'] = wildcards[i]
+        this.cards.push(new Card('anycolor', wildcards[i]))
       }
     }
   }
