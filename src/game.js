@@ -1,5 +1,5 @@
-const Deck = require('./deck')
-const Player = require('./player')
+const { Deck } = require('./deck')
+const { Player } = require('./player')
 
 class Game {
   constructor (playerNames) {
