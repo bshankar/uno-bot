@@ -17,7 +17,7 @@ function listenForInput (game) {
 
   let drawn = false
   rl.on('line', function (line) {
-    const player = game.players[game.currentPlayer]
+    const player = game.players[0]
     const n = parseInt(line)
     if (line === '') {
       if (game.drawCount > 0) {
@@ -63,8 +63,8 @@ function cardToNotation (c) {
 function show (game) {
   const hand = game.players[0].hand
   console.log('top: ' + cardToNotation(game.top))
-  console.log('Cards left (C): ', game.players[1].hand.length)
-  if (game.top.value === 'colorChange') console.log('I choose: ', game.currentColor)
+  console.log('Cards left (C): ', game.players[1].hand, game.currentColor)
+  if (game.top.value === 'colorChange' || game.top.value === '+4') console.log('I choose: ', game.currentColor)
   console.log(hand.map((c, i) => i + ': ' + cardToNotation(c)))
 }
 
