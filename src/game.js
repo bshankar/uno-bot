@@ -3,85 +3,87 @@ const { Player } = require('./player')
 
 class Game {
   constructor (playerNames) {
-    this.top = null
-    this.winningSequence = []
     this.deck = new Deck()
-    this.players = []
-    this.currentPlayer = null
     this.playerNames = playerNames
-    this.drawCount = 0
+    this.directionReversed = false
   }
 
   start () {
-    for (let i = 0; i < this.playerNames.length; ++i) {
-      this.players.push(new Player(this.playerNames[i]))
-    }
+    this.players = this.playerNames.map(p => new Player(p))
     this.deck.deal(this.players)
     this.top = this.deck.draw(1)[0]
     this.currentPlayer = 0
+    this.drawCount = 0
+    this.winningSequence = []
   }
 
   play (attempted = 0) {
     if (attempted > 1) return
-    const card = this.players[this.currentPlayer].choose(this.top, undefined, this.drawCount)
+    const player = this.players[this.currentPlayer]
+    const card = player.choose(this.top, undefined, this.drawCount)
     if (card !== undefined) this.playCard(card)
     else {
-      this.players[this.currentPlayer].hand = this.players[this.currentPlayer].hand.concat(this.deck.draw(this.drawCount || 1))
+      player.hand = player.hand.concat(this.deck.draw(this.drawCount || 1))
       this.drawCount = 0
       if (this.top.value[0] !== '+') this.play(attempted + 1)
     }
   }
 
+  nextPlayer (n) {
+    if (this.directionReversed === false) {
+      return (this.currentPlayer + n) % this.players.length
+    }
+    return this.previousPlayer(n)
+  }
+
+  previousPlayer (n) {
+    if (this.directionReversed === false) {
+      return (this.currentPlayer - n + this.players.length) % this.players.length
+    }
+    return this.nextPlayer(n)
+  }
+
   playCard (card) {
     this.top = card
-    const index = this.players[this.currentPlayer].hand.indexOf(card)
-    this.players[this.currentPlayer].hand.splice(index, 1)
-    if (this.players[this.currentPlayer].hand.length === 0) {
-      this.winningSequence.push(this.players[this.currentPlayer])
+    const player = this.players[this.currentPlayer]
+    const index = player.hand.indexOf(card)
+    player.hand.splice(index, 1)
+    if (player.hand.length === 0) {
+      this.winningSequence.push(player)
       this.players.splice(this.currentPlayer, 1)
-      this.currentPlayer = (this.currentPlayer + this.players.length - 1) % this.players.length
+      this.currentPlayer = this.previousPlayer(1)
     }
     if (this.top.value === 'skip') this.skipChance()
     else if (this.top.value === 'reverse') this.reverse()
     else if (this.top.value[0] === '+') this.drawTwoOrFour()
-    else this.currentPlayer = (this.currentPlayer + 1) % this.players.length
+    else this.currentPlayer = this.nextPlayer(1)
   }
 
   skipChance () {
-    this.currentPlayer = (this.currentPlayer + 2) % this.players.length
+    this.currentPlayer = this.nextPlayer(2)
   }
 
   reverse () {
-    this.players.reverse()
-    this.currentPlayer = (this.players.length - this.currentPlayer) % this.players.length
+    this.directionReversed = !this.directionReversed
   }
 
   drawTwoOrFour () {
     let found
-    this.currentPlayer = (this.currentPlayer + 1) % this.players.length
-    this.drawCount = (this.top.value === '+2') ? this.drawCount + 2 : this.drawCount + 4
-    const numberOfCards = this.players[this.currentPlayer].hand.length
-    if (this.top.value === '+2') found = this.drawTwo(numberOfCards)
-    else if (this.top.value === '+4') found = this.drawFour(numberOfCards)
+    this.currentPlayer = this.nextPlayer(1)
+    this.drawCount = this.top.value === '+2' ? this.drawCount + 2 : this.drawCount + 4
+    const player = this.players[this.currentPlayer]
+    if (this.top.value === '+2') found = this.drawHelper('+')
+    else if (this.top.value === '+4') found = this.drawHelper('+4')
     if (found === undefined) {
-      this.players[this.currentPlayer].hand = this.players[this.currentPlayer].hand.concat(this.deck.draw(this.drawCount))
+      player.hand = player.hand.concat(this.deck.draw(this.drawCount))
       this.drawCount = 0
     } else this.top = found
-    this.currentPlayer = (this.currentPlayer + 1) % this.players.length
+    this.currentPlayer = this.nextPlayer(1)
   }
 
-  drawTwo (num) {
-    for (let i = 0; i < num; i++) {
-      if (this.players[this.currentPlayer].hand[i]['value'][0] === '+') {
-        this.players[this.currentPlayer].hand.splice(i, 1)
-        return this.players[this.currentPlayer].hand[i]
-      }
-    }
-  }
-
-  drawFour (num) {
-    for (let i = 0; i < num; i++) {
-      if (this.players[this.currentPlayer].hand[i]['value'] === '+4') {
+  drawHelper (stringToMatch) {
+    for (let i = 0; i < this.players[this.currentPlayer].hand.length; i++) {
+      if (this.players[this.currentPlayer].hand[i]['value'].startsWith(stringToMatch)) {
         this.players[this.currentPlayer].hand.splice(i, 1)
         return this.players[this.currentPlayer].hand[i]
       }
