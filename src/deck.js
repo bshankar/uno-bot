@@ -1,9 +1,11 @@
 const { Card } = require('./card')
+const { shuffleArray } = require('./util')
 
 class Deck {
   constructor () {
     this.remaining = []
     this.cardInit()
+    shuffleArray(this.cards)
   }
 
   cardInit () {
