@@ -5,7 +5,7 @@ class Player {
   }
 
   choose (topCard, color, drawCount) {
-    if (drawCount !== undefined) {
+    if (drawCount !== 0) {
       if (topCard.value === '+2') {
         for (let i = 0; i < this.hand.length; ++i) {
           if (this.hand[i].value[0] === '+') return this.hand[i]
@@ -15,6 +15,7 @@ class Player {
           if (this.hand[i].value === '+4') return this.hand[i]
         }
       }
+      return
     }
 
     if (color !== undefined) {
