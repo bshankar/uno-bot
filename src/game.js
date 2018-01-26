@@ -29,7 +29,7 @@ class Game {
     const player = this.players[this.currentPlayer]
     const card = player.choose(this.top, this.currentColor, this.drawCount)
     if (card !== undefined) this.playCard(card)
-    else {
+    else if (attempted === 0) {
       player.hand = player.hand.concat(this.deck.draw(this.drawCount || 1))
       this.drawCount = 0
       if (this.top.value[0] !== '+') this.play(attempted + 1)
