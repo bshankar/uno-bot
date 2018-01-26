@@ -16,7 +16,7 @@ class Game {
       this.players.push(new Player(this.playerNames[i]))
     }
     this.deck.deal(this.players)
-    this.top = this.deck.draw(1)
+    this.top = this.deck.draw(1)[0]
     this.currentPlayer = 0
   }
 
@@ -28,7 +28,18 @@ class Game {
   playCard (card) {
     this.top = card
     const index = this.players[this.currentPlayer].hand.indexOf(card)
-    this.players[this.currentPlayer].splice(index, 1)
+    this.players[this.currentPlayer].hand.splice(index, 1)
+    if (this.top.value === 'skip') this.skipChance()
+    else if (this.top.value === 'reverse') this.reverse()
+    else this.currentPlayer = (this.currentPlayer + 1) % this.players.length
+  }
+
+  skipChance () {
+    this.currentPlayer = (this.currentPlayer + 2) % this.players.length
+  }
+
+  reverse () {
+    this.players.reverse()
     this.currentPlayer = (this.currentPlayer + 1) % this.players.length
     if (top["value"] == "+2") {
       drawTwo()
