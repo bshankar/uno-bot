@@ -37,6 +37,7 @@ class Game {
     this.players[this.currentPlayer].hand.splice(index, 1)
     if (this.top.value === 'skip') this.skipChance()
     else if (this.top.value === 'reverse') this.reverse()
+    else if (this.top.value[0] === '+') this.drawTwoOrFour()
     else this.currentPlayer = (this.currentPlayer + 1) % this.players.length
   }
 
@@ -47,6 +48,26 @@ class Game {
   reverse () {
     this.players.reverse()
     this.currentPlayer = (this.players.length - this.currentPlayer) % this.players.length
+  }
+
+  drawTwoOrFour () {
+    if (this.top['value'] == '+2') {
+      this.drawCount += 2
+    }
+    if (this.top['value'] == '+4') {
+      this.drawCount += 4
+    }
+    numberOfCards = this.players[this.currentPlayer].hand.length
+    for (let i = 0; i < numberOfCards; i++ ) {
+      if (this.players[this.currentPlayer].hand[i]['value'][0] == '+' ) {
+        this.top = this.players[this.currentPlayer].hand[i]
+        this.players[this.currentPlayer].hand.splice(index, 1)
+        this.currentPlayer = (this.currentPlayer + 1) % this.players.length
+        return
+      }
+    }
+    this.players[this.currentPlayer].hand.concat(this.deck.draw(1))
+    this.currentPlayer = (this.currentPlayer + 1) % this.players.length
   }
 }
 
