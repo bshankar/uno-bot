@@ -21,12 +21,13 @@ class Game {
     this.currentPlayer = 0
   }
 
-  play () {
+  play (attempted = 0) {
+    if (attempted > 1) return
     const card = this.players[this.currentPlayer].choose()
     if (card !== undefined) this.playCard(card)
     else {
       this.deck.draw(this.drawCount || 1)
-      this.play()
+      this.play(attempted + 1)
     }
   }
 
