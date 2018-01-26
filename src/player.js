@@ -1,7 +1,7 @@
 class Player {
   constructor () {
-    // hand
-    // turn: true/false
+    this.hand = []
+    this.turn = false
   }
 
   choose () {
