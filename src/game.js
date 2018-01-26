@@ -12,6 +12,12 @@ class Game {
     this.players = this.playerNames.map(p => new Player(p))
     this.deck.deal(this.players)
     this.top = this.deck.draw(1)[0]
+    while (this.top.color === '' || this.top.value === '+2' ||
+           this.top.value === 'reverse' || this.top.value === 'skip') {
+      this.deck.add(this.top)
+      this.deck.shuffle()
+      this.top = this.deck.draw(1)[0]
+    }
     this.currentColor = this.top.color
     this.currentPlayer = 0
     this.drawCount = 0
