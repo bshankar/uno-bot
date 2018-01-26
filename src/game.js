@@ -10,6 +10,7 @@ class Game {
     this.currentPlayer = null
     this.playerNames = playerNames
     this.drawCount = 0
+    this.currentColor = null
   }
 
   start () {
@@ -33,6 +34,8 @@ class Game {
 
   playCard (card) {
     this.top = card
+    if (card.color === 'anycolor') this.currentColor = ['red', 'green', 'blue', 'yellow'][Math.floor(Math.random()) * 4]
+    else this.currentColor = card.color
     const index = this.players[this.currentPlayer].hand.indexOf(card)
     this.players[this.currentPlayer].hand.splice(index, 1)
     if (this.top.value === 'skip') this.skipChance()
@@ -79,6 +82,8 @@ class Game {
       }
     }
   }
+
+  changeColor ()
 }
 
 module.exports = { Game }
