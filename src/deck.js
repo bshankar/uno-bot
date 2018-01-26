@@ -30,7 +30,7 @@ class Deck {
     }
     for (let i = 0; i < 4; i++) {
       for (let j = 0; j < 2; j++) {
-        this.cards.push(new Card('anycolor', wildcards[j]))
+        this.cards.push(new Card('', wildcards[j]))
       }
     }
   }

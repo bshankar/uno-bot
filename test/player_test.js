@@ -29,14 +29,14 @@ describe('Test choose function', function () {
   })
   it('Chooses matching draw 4 card', function () {
     let p2 = new Player('P2')
-    p2.hand = [new Card('anycolor', '+4')]
+    p2.hand = [new Card('', '+4')]
     let chosenCard = p2.choose(new Card ('red', '+2'), undefined, 2)
     assert.equal(chosenCard, p2.hand[0])
   })
   it('Check for unmatched draw 4', function () {
     let p2 = new Player('P2')
     p2.hand = [new Card ('red', '+2')]
-    let chosenCard = p2.choose(new Card ('anycolor', '+4'), undefined, 2)
+    let chosenCard = p2.choose(new Card ('', '+4'), undefined, 2)
     assert.equal(chosenCard, undefined)
   })
 })

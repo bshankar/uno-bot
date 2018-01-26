@@ -16,7 +16,7 @@ describe('Test sanity of initial deck\'s cards', function () {
   })
   it ('Special cards should be 8', function () {
     const deck = new Deck()
-    assert.equal(deck.cards.filter(c => c.color === 'anycolor').length, 8)
+    assert.equal(deck.cards.filter(c => c.color === '').length, 8)
   })
 
   it ('No undefined properties in all cards', function () {

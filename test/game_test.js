@@ -1,5 +1,6 @@
 const { Game } = require('../src/game')
 const { Card } = require('../src/card')
+const { Player } = require('../src/player')
 const assert = require('assert')
 
 describe('Test game methods', function () {
@@ -44,10 +45,10 @@ describe('Test game methods', function () {
   it('Test draw4', function() {
     let game = new Game(['P1', 'P2', 'P3', 'P4', 'P5'])
     game.start()
-    game.top = new Card('anycolor', '+4')
+    game.top = new Card('', '+4')
     game.players[1].hand = [new Card('red', '+2'), new Card('red', '2')]
     game.drawTwoOrFour()
-    assert.deepEqual(new Card('anycolor', '+4'), game.top)
+    assert.deepEqual(new Card('', '+4'), game.top)
     assert.equal(6, game.players[1].hand.length)
   })
   it('Test playcard', function() {
@@ -57,6 +58,56 @@ describe('Test game methods', function () {
     game.playCard(game.players[0].hand[0])
     assert.deepEqual(new Card('green', '2'), game.top)
     assert.equal(0, game.currentPlayer)
-    console.log(game.winningSequence)
+  })
+  it('Test current color on init', function() {
+    let game = new Game(['P1', 'P2', 'P3', 'P4', 'P5'])
+    game.start()
+    game.players[0].hand = [new Card('green', '2'), new Card('blue', '9')]
+    game.play()
+    assert.equal('green', game.currentColor)
+    assert.equal(1, game.currentPlayer)
+  })
+  it('Test random color function', function() {
+    let game = new Game(['P1', 'P2', 'P3', 'P4', 'P5'])
+    game.start()
+    // console.log(game.currentColor)
+    // console.log(game.getRandColor())
+  })
+  it('Test color change on playing card', function() {
+    let game = new Game(['P1', 'P2', 'P3', 'P4', 'P5'])
+    game.start()
+    game.top = new Card('red', '2')
+    game.drawCount = 4
+    game.players[0].hand = [new Card('green', '2'), new Card('blue', '9')]
+    game.play()
+    assert.equal(game.currentColor, 'green')
+  })
+  it('Test color color on not playing card', function() {
+    let game = new Game(['P1', 'P2', 'P3', 'P4', 'P5'])
+    game.start()
+    game.top = new Card('red', '5')
+    game.drawCount = 4
+    game.players[0].hand = [new Card('green', '2'), new Card('blue', '9')]
+    game.play()
+    assert.equal(game.currentColor, 'red')
+  })
+  it('Test color color on playing draw 4 card', function() {
+    let game = new Game(['P1', 'P2', 'P3', 'P4', 'P5'])
+    game.start()
+    game.top = new Card('red', '4')
+    game.currentColor = game.top.color
+    assert.equal(game.currentColor, 'red')
+    game.players[0].hand = [new Card('', '+4'), new Card('blue', '9')]
+    game.play()
+    assert.equal(1, game.players[0].hand.length)
+    assert.deepEqual(new Card('', '+4'), game.top)
+    console.log(game.currentColor)
+    assert.equal(1, game.currentPlayer)
+    game.players[1].hand = [new Card('green', '2'), new Card('blue', '8')]
+    console.log(game.players[1].hand)
+    game.play()
+    console.log(game.currentColor)
+    console.log(game.players[0].hand)
+    console.log(game.players[1].hand)
   })
 })

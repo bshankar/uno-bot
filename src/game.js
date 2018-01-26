@@ -12,6 +12,7 @@ class Game {
     this.players = this.playerNames.map(p => new Player(p))
     this.deck.deal(this.players)
     this.top = this.deck.draw(1)[0]
+    this.currentColor = this.top.color
     this.currentPlayer = 0
     this.drawCount = 0
     this.winningSequence = []
@@ -20,12 +21,13 @@ class Game {
   play (attempted = 0) {
     if (attempted > 1) return
     const player = this.players[this.currentPlayer]
-    const card = player.choose(this.top, undefined, this.drawCount)
+    const card = player.choose(this.top, this.currentColor, this.drawCount)
     if (card !== undefined) this.playCard(card)
     else {
       player.hand = player.hand.concat(this.deck.draw(this.drawCount || 1))
       this.drawCount = 0
       if (this.top.value[0] !== '+') this.play(attempted + 1)
+      this.currentPlayer = this.nextPlayer(1)
     }
   }
 
@@ -45,6 +47,7 @@ class Game {
 
   playCard (card) {
     this.top = card
+    this.currentColor = this.top.color === '' ? this.getRandColor() : this.top.color
     const player = this.players[this.currentPlayer]
     const index = player.hand.indexOf(card)
     player.hand.splice(index, 1)
@@ -85,9 +88,16 @@ class Game {
       if (this.players[this.currentPlayer].hand[i]['value'].startsWith(stringToMatch)) {
         const card = this.players[this.currentPlayer].hand[i]
         this.players[this.currentPlayer].hand.splice(i, 1)
+        this.currentColor = stringToMatch === '+4' ? this.getRandColor : this.currentColor
         return card
       }
     }
+  }
+  getRandColor () {
+    let colors = ['red', 'yellow', 'green', 'blue']
+    let index = Math.floor(Math.random() * colors.length)
+    if (colors[index] !== this.currentColor) return colors[index]
+    return this.getRandColor()
   }
 }
 
