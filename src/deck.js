@@ -1,4 +1,4 @@
-const Card = require('./card')
+const { Card } = require('./card')
 
 class Deck {
   constructor () {
@@ -19,7 +19,7 @@ class Deck {
       }
       for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 3; j++) {
-          this.cards.push(new Card(colors[j], remvalues[i]))
+          this.cards.push(new Card(colors[i], remvalues[j]))
         }
       }
     }
@@ -35,9 +35,9 @@ class Deck {
 
   deal (players) {
     for (let i = 0; i < players.length; ++i) {
-      players.hand.push(this.cards.slice(7 * i, 7 * i + 6))
+      players[i].hand = this.cards.slice(7 * i, 7 * i + 6)
     }
-    this.remaining = players.slice(7 * players.length)
+    this.remaining = this.cards.slice(7 * players.length)
   }
 
   add (card) {

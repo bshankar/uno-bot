@@ -1,5 +1,5 @@
-const Deck = require('./deck')
-const Player = require('./player')
+const { Deck } = require('./deck')
+const { Player } = require('./player')
 
 class Game {
   constructor (playerNames) {
@@ -16,6 +16,7 @@ class Game {
       this.players.push(new Player(this.playerNames[i]))
     }
     this.deck.deal(this.players)
+    this.top = this.deck.draw(1)[0]
     this.currentPlayer = 0
   }
 
@@ -27,7 +28,7 @@ class Game {
   playCard (card) {
     this.top = card
     const index = this.players[this.currentPlayer].hand.indexOf(card)
-    this.players[this.currentPlayer].splice(index, 1)
+    this.players[this.currentPlayer].hand.splice(index, 1)
     this.currentPlayer = (this.currentPlayer + 1) % this.players.length
   }
 }
