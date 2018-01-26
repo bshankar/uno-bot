@@ -37,7 +37,7 @@ class Deck {
     for (let i = 0; i < players.length; ++i) {
       players[i].hand.push(this.cards.slice(7 * i, 7 * i + 6))
     }
-    this.remaining = players.slice(7 * players.length)
+    this.remaining = this.cards.slice(7 * players.length)
   }
 
   add (card) {
