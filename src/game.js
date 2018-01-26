@@ -46,6 +46,7 @@ class Game {
 
   reverse () {
     this.players.reverse()
+    this.currentPlayer = (this.players.length - this.currentPlayer) % this.players.length
   }
 }
 
