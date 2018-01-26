@@ -27,6 +27,7 @@ class Game {
     if (card !== undefined) this.playCard(card)
     else {
       this.players[this.currentPlayer].hand = this.players[this.currentPlayer].hand.concat(this.deck.draw(this.drawCount || 1))
+      this.drawCount = 0
       if (this.top.value[0] !== '+') this.play(attempted + 1)
     }
   }
@@ -57,12 +58,14 @@ class Game {
 
   drawTwoOrFour () {
     let found
+    this.currentPlayer = (this.currentPlayer + 1) % this.players.length
     this.drawCount = (this.top.value === '+2') ? this.drawCount + 2 : this.drawCount + 4
     const numberOfCards = this.players[this.currentPlayer].hand.length
     if (this.top.value === '+2') found = this.drawTwo(numberOfCards)
     else if (this.top.value === '+4') found = this.drawFour(numberOfCards)
     if (found === undefined) {
       this.players[this.currentPlayer].hand = this.players[this.currentPlayer].hand.concat(this.deck.draw(this.drawCount))
+      this.drawCount = 0
     } else this.top = found
     this.currentPlayer = (this.currentPlayer + 1) % this.players.length
   }
