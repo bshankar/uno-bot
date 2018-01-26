@@ -1,13 +1,32 @@
+const Deck = require('./deck')
+const Player = require('./player')
+
 class Game {
-  constructor () {
-    // top
-    // winning sequence
-    // deck
-    // players
+  constructor (playerNames) {
+    this.top = null
+    this.winningSequence = []
+    this.deck = new Deck()
+    this.players = []
+    this.currentPlayer = null
+    this.playerNames = playerNames
   }
 
-  play (player) {
+  start () {
+    for (let i = 0; i < this.playerNames.length; ++i) {
+      this.players.push(new Player(this.playerNames[i]))
+    }
+    this.deck.deal(this.players)
+    this.currentPlayer = 0
+  }
 
+  play () {
+    const card = this.players[this.currentPlayer].choose()
+    this.playCard(card)
+  }
+
+  playCard (card) {
+    this.top = card
+    this.currentPlayer = (this.currentPlayer + 1) % this.players.length
   }
 }
 
