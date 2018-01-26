@@ -1,4 +1,4 @@
-const Card = require('./card')
+const { Card } = require('./card')
 
 class Deck {
   constructor () {
@@ -19,7 +19,7 @@ class Deck {
       }
       for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 3; j++) {
-          this.cards.push(new Card(colors[j], remvalues[i]))
+          this.cards.push(new Card(colors[i], remvalues[j]))
         }
       }
     }
