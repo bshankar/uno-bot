@@ -4,32 +4,29 @@ class Player {
     this.hand = []
   }
 
+  findCard (fun) {
+    return this.hand.filter(c => fun(c))[0]
+  }
+
+  matches (topCard, card) {
+    if (topCard.color === card.color ||
+        card.color === 'anycolor' ||
+        topCard.value === card.value) {
+      return true
+    }
+    return false
+  }
+
   choose (topCard, color, drawCount) {
-    if (drawCount !== 0) {
-      if (topCard.value === '+2') {
-        for (let i = 0; i < this.hand.length; ++i) {
-          if (this.hand[i].value[0] === '+') return this.hand[i]
-        }
-      } else if (topCard.value === '+4') {
-        for (let i = 0; i < this.hand.length; ++i) {
-          if (this.hand[i].value === '+4') return this.hand[i]
-        }
-      }
-      return
-    }
-
-    if (color !== undefined) {
-      for (let i = 0; i < this.hand.length; ++i) {
-        if (color === this.hand[i].color) return this.hand[i]
-      }
-    }
-
-    for (let i = 0; i < this.hand.length; ++i) {
-      if (topCard.color === this.hand[i].color ||
-          this.hand[i].color === 'anycolor' ||
-          topCard.value === this.hand[i].value) {
-        return this.hand[i]
-      }
+    if (color === undefined && drawCount === 0) {
+      return this.findCard(c => this.matches(topCard, c))
+    } else if (drawCount !== 0) {
+      return this.findCard(c => (topCard.value === '+2' &&
+                                c.value[0] === '+') ||
+                           (topCard.value === '+4' &&
+                            c.value === '+4'))
+    } else if (color !== undefined) {
+      return this.findCard(c => c.color === color)
     }
   }
 }
