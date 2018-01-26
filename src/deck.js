@@ -2,16 +2,10 @@ const Card = require('./card')
 
 class Deck {
   constructor () {
-<<<<<<< HEAD
-    //cards = [{"color" : ""}]
-    // remaining []
-=======
-    // cards []
     this.remaining = []
->>>>>>> bff91c6e0e96ffcf9f1ca83249d4dd0f40debe63
   }
 
-  card_init () {
+  cardInit () {
     this.cards = {}
     var i, j
     var colors = ["red", "blue", "yellow", "green"]
