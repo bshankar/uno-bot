@@ -84,8 +84,9 @@ class Game {
   drawHelper (stringToMatch) {
     for (let i = 0; i < this.players[this.currentPlayer].hand.length; i++) {
       if (this.players[this.currentPlayer].hand[i]['value'].startsWith(stringToMatch)) {
+        const card = this.players[this.currentPlayer].hand[i]
         this.players[this.currentPlayer].hand.splice(i, 1)
-        return this.players[this.currentPlayer].hand[i]
+        return card
       }
     }
   }
