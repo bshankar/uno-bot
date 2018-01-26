@@ -57,7 +57,7 @@ function listenForInput (game) {
 }
 
 function cardToNotation (c) {
-  return c.color[0].toUpperCase() + c.value
+  return (c.color[0] || '').toUpperCase() + c.value
 }
 
 function show (game) {

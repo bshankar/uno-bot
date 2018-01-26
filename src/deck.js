@@ -5,7 +5,7 @@ class Deck {
   constructor () {
     this.remaining = []
     this.cardInit()
-    // shuffleArray(this.cards)
+    shuffleArray(this.cards)
   }
 
   cardInit () {
@@ -52,6 +52,10 @@ class Deck {
       drawnCards.push(this.remaining.shift())
     }
     return drawnCards
+  }
+
+  shuffle () {
+    shuffleArray(this.remaining)
   }
 }
 
