@@ -9,6 +9,7 @@ class Game {
     this.players = []
     this.currentPlayer = null
     this.playerNames = playerNames
+    this.drawCount = 0
   }
 
   start () {
