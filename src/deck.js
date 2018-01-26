@@ -5,7 +5,7 @@ class Deck {
   constructor () {
     this.remaining = []
     this.cardInit()
-    shuffleArray(this.cards)
+    // shuffleArray(this.cards)
   }
 
   cardInit () {
