@@ -26,6 +26,8 @@ class Game {
 
   playCard (card) {
     this.top = card
+    const index = this.players[this.currentPlayer].hand.indexOf(card)
+    this.players[this.currentPlayer].splice(index, 1)
     this.currentPlayer = (this.currentPlayer + 1) % this.players.length
   }
 }
