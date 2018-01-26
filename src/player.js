@@ -26,7 +26,7 @@ class Player {
 
     for (let i = 0; i < this.hand.length; ++i) {
       if (topCard.color === this.hand[i].color ||
-          this.hand[i] === 'anycolor' ||
+          this.hand[i].color === 'anycolor' ||
           topCard.value === this.hand[i].value) {
         return this.hand[i]
       }
