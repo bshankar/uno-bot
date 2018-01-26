@@ -23,7 +23,7 @@ class Game {
 
   play (attempted = 0) {
     if (attempted > 1) return
-    const card = this.players[this.currentPlayer].choose()
+    const card = this.players[this.currentPlayer].choose(this.top)
     if (card !== undefined) this.playCard(card)
     else {
       this.deck.draw(this.drawCount || 1)
@@ -46,7 +46,6 @@ class Game {
 
   reverse () {
     this.players.reverse()
-    this.currentPlayer = (this.currentPlayer + 1) % this.players.length
   }
 }
 
