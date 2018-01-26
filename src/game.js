@@ -30,6 +30,17 @@ class Game {
     const index = this.players[this.currentPlayer].hand.indexOf(card)
     this.players[this.currentPlayer].splice(index, 1)
     this.currentPlayer = (this.currentPlayer + 1) % this.players.length
+    if (top["value"] == "+2") {
+      drawTwo()
+    }
+    if (top["value"] == "+4") {
+      drawFour()
+    }
+    // if card is a +2
+  }
+
+  drawTwo () {
+    
   }
 }
 
