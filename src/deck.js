@@ -1,9 +1,11 @@
 const { Card } = require('./card')
+const { shuffleArray } = require('./util')
 
 class Deck {
   constructor () {
     this.remaining = []
     this.cardInit()
+    shuffleArray(this.cards)
   }
 
   cardInit () {
@@ -28,7 +30,7 @@ class Deck {
     }
     for (let i = 0; i < 4; i++) {
       for (let j = 0; j < 2; j++) {
-        this.cards.push(new Card('anycolor', wildcards[i]))
+        this.cards.push(new Card('anycolor', wildcards[j]))
       }
     }
   }
