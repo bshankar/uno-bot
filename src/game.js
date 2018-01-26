@@ -16,7 +16,7 @@ class Game {
       this.players.push(new Player(this.playerNames[i]))
     }
     this.deck.deal(this.players)
-    this.top = this.deck.draw(1)
+    this.top = this.deck.draw(1)[0]
     this.currentPlayer = 0
   }
 
