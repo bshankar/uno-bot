@@ -16,20 +16,7 @@ function listenForInput (game) {
   })
 
   rl.on('line', function (line) {
-    const index = parseInt(line)
-    const player = game.players[game.currentPlayer]
-    if (index < 0 || index >= player.hand.length) {
-      console.log('Invalid index choice. Try again')
-      return
-    }
-    if (checkValid(game, player.hand[index])) {
-      game.playCard(player.hand[index])
-    } else {
-      console.log('This card cannot be played now. Try again')
-      return
-    }
-    game.play()
-    show(game)
+    // make a move
   })
 }
 
