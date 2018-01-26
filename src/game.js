@@ -26,7 +26,7 @@ class Game {
     const card = this.players[this.currentPlayer].choose(this.top, undefined, this.drawCount)
     if (card !== undefined) this.playCard(card)
     else {
-      this.players[this.currentPlayer].hand.concat(this.deck.draw(this.drawCount || 1))
+      this.players[this.currentPlayer].hand = this.players[this.currentPlayer].hand.concat(this.deck.draw(this.drawCount || 1))
       if (this.top.value[0] !== '+') this.play(attempted + 1)
     }
   }
@@ -51,28 +51,32 @@ class Game {
   }
 
   drawTwoOrFour () {
+    let found
+    this.drawCount = (this.top.value === '+2') ? this.drawCount + 2 : this.drawCount + 4
     const numberOfCards = this.players[this.currentPlayer].hand.length
-    if (this.top.value === '+2') {
-      this.drawCount += 2
-      for (let i = 0; i < numberOfCards; i++) {
-        if (this.players[this.currentPlayer].hand[i]['value'][0] === '+') {
-          this.top = this.players[this.currentPlayer].hand[i]
-          this.players[this.currentPlayer].hand.splice(i, 1)
-          this.currentPlayer = (this.currentPlayer + 1) % this.players.length
-        }
+    if (this.top.value === '+2') found = this.drawTwo(numberOfCards)
+    else if (this.top.value === '+4') found = this.drawFour(numberOfCards)
+    if (found === undefined) {
+      this.players[this.currentPlayer].hand = this.players[this.currentPlayer].hand.concat(this.deck.draw(this.drawCount))
+    } else this.top = found
+    this.currentPlayer = (this.currentPlayer + 1) % this.players.length
+  }
+
+  drawTwo (num) {
+    for (let i = 0; i < num; i++) {
+      if (this.players[this.currentPlayer].hand[i]['value'][0] === '+') {
+        this.players[this.currentPlayer].hand.splice(i, 1)
+        return this.players[this.currentPlayer].hand[i]
       }
-    } else if (this.top.value === '+4') {
-      this.drawCount += 4
-      for (let i = 0; i < numberOfCards; i++) {
-        if (this.players[this.currentPlayer].hand[i]['value'][0] === '+4') {
-          this.top = this.players[this.currentPlayer].hand[i]
-          this.players[this.currentPlayer].hand.splice(i, 1)
-          this.currentPlayer = (this.currentPlayer + 1) % this.players.length
-        }
+    }
+  }
+
+  drawFour (num) {
+    for (let i = 0; i < num; i++) {
+      if (this.players[this.currentPlayer].hand[i]['value'] === '+4') {
+        this.players[this.currentPlayer].hand.splice(i, 1)
+        return this.players[this.currentPlayer].hand[i]
       }
-    } else {
-      this.players[this.currentPlayer].hand.concat(this.deck.draw(this.drawCount))
-      this.currentPlayer = (this.currentPlayer + 1) % this.players.length
     }
   }
 }
