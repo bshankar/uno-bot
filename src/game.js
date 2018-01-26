@@ -32,6 +32,7 @@ class Game {
     this.players[this.currentPlayer].hand.splice(index, 1)
     if (this.top.value === 'skip') this.skipChance()
     else if (this.top.value === 'reverse') this.reverse()
+    else if (this.top.value[0] === '+') this.drawTwoOrFour()
     else this.currentPlayer = (this.currentPlayer + 1) % this.players.length
   }
 
