@@ -42,17 +42,26 @@ class Game {
   reverse () {
     this.players.reverse()
     this.currentPlayer = (this.currentPlayer + 1) % this.players.length
-    if (top["value"] == "+2") {
-      drawTwo()
-    }
-    if (top["value"] == "+4") {
-      drawFour()
-    }
-    // if card is a +2
   }
 
-  drawTwo () {
-    
+  drawTwoOrFour () {
+    if (this.top['value'] == '+2') {
+      this.drawCount += 2
+    }
+    if (this.top['value'] == '+4') {
+      this.drawCount += 4
+    }
+    numberOfCards = this.players[this.currentPlayer].hand.length
+    for (let i = 0; i < numberOfCards; i++ ) {
+      if (this.players[this.currentPlayer].hand[i]['value'][0] == '+' ) {
+        this.top = this.players[this.currentPlayer].hand[i]
+        this.players[this.currentPlayer].hand.splice(index, 1)
+        this.currentPlayer = (this.currentPlayer + 1) % this.players.length
+        return
+      }
+    }
+    this.players[this.currentPlayer].hand.concat(this.deck.draw(1))
+    this.currentPlayer = (this.currentPlayer + 1) % this.players.length
   }
 }
 
