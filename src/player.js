@@ -5,8 +5,8 @@ class Player {
     this.turn = false
   }
 
-  choose () {
-
+  choose (top) {
+    return this.hand[0]
   }
 }
 
