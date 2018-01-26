@@ -31,18 +31,18 @@ class Game {
     }
   }
 
-  nextPlayer (n) {
-    if (this.directionReversed === false) {
+  nextPlayer (n, direction = this.directionReversed) {
+    if (direction === false) {
       return (this.currentPlayer + n) % this.players.length
     }
-    return this.previousPlayer(n)
+    return this.previousPlayer(n, false)
   }
 
-  previousPlayer (n) {
-    if (this.directionReversed === false) {
+  previousPlayer (n, direction = this.directionReversed) {
+    if (direction === false) {
       return (this.currentPlayer - n + this.players.length) % this.players.length
     }
-    return this.nextPlayer(n)
+    return this.nextPlayer(n, false)
   }
 
   playCard (card) {
