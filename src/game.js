@@ -65,6 +65,7 @@ class Game {
     if (this.top.value === 'skip') this.skipChance()
     else if (this.top.value === 'reverse') this.reverse()
     else if (this.top.value[0] === '+') this.drawTwoOrFour()
+    else if (this.top.value === 'colorChange') this.currentColor = this.getRandColor()
     else this.currentPlayer = this.nextPlayer(1)
   }
 
