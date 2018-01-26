@@ -8,9 +8,7 @@ class Game {
     this.directionReversed = false
   }
 
-  start () {
-    this.players = this.playerNames.map(p => new Player(p))
-    this.deck.deal(this.players)
+  drawTop () {
     this.top = this.deck.draw(1)[0]
     while (this.top.color === '' || this.top.value === '+2' ||
            this.top.value === 'reverse' || this.top.value === 'skip') {
@@ -18,6 +16,12 @@ class Game {
       this.deck.shuffle()
       this.top = this.deck.draw(1)[0]
     }
+  }
+
+  start () {
+    this.players = this.playerNames.map(p => new Player(p))
+    this.deck.deal(this.players)
+    this.drawTop()
     this.currentColor = this.top.color
     this.currentPlayer = 0
     this.drawCount = 0
@@ -27,7 +31,7 @@ class Game {
   play (attempted = 0) {
     if (attempted > 1) return
     const player = this.players[this.currentPlayer]
-    const card = player.choose(this.top, this.currentColor, this.drawCount)
+    const card = player.choose(this)
     if (card !== undefined) this.playCard(card)
     else if (attempted === 0) {
       player.hand = player.hand.concat(this.deck.draw(this.drawCount || 1))

@@ -8,26 +8,25 @@ class Player {
     return this.hand.filter(c => fun(c))[0]
   }
 
-  matches (topCard, card) {
-    if (topCard.color === card.color ||
+  matches (game, card) {
+    if (game.currentColor === card.color ||
         card.color === '' ||
-        topCard.value === card.value) {
+        game.top.value === card.value) {
       return true
     }
     return false
   }
 
-  choose (topCard, color, drawCount) {
-    console.log(arguments)
-    if (drawCount === 0) {
-      return this.findCard(c => this.matches(topCard, c))
-    } else if (drawCount !== 0) {
-      return this.findCard(c => (topCard.value === '+2' &&
+  choose (game) {
+    if (game.drawCount === 0) {
+      return this.findCard(c => this.matches(game, c))
+    } else if (game.drawCount !== 0) {
+      return this.findCard(c => (game.top.value === '+2' &&
                                 c.value[0] === '+') ||
-                           (topCard.value === '+4' &&
+                           (game.top.value === '+4' &&
                             c.value === '+4'))
-    } else if (color.length !== 0) {
-      return this.findCard(c => c.color === color)
+    } else if (game.currentColor.length !== 0) {
+      return this.findCard(c => c.color === game.currentColor)
     }
   }
 }

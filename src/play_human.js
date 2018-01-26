@@ -4,8 +4,7 @@ const readline = require('readline')
 function isValid (game, card) {
   if (card.value === '+4') return true
   if (game.top.value === '+4') return false
-  if (game.players[0].matches(game.top, card) === true) return true
-  return false
+  return game.players[0].matches(game, card)
 }
 
 function listenForInput (game) {
@@ -46,7 +45,7 @@ function listenForInput (game) {
     drawn = false
     show(game)
     game.currentPlayer = 1
-    while (game.players[game.currentPlayer].name === 'computer') game.play()
+    game.play()
     if (game.players.length === 1) {
       rl.close()
       console.log('Computer won')
