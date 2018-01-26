@@ -18,6 +18,7 @@ class Player {
   }
 
   choose (topCard, color, drawCount) {
+    console.log(arguments)
     if (drawCount === 0) {
       return this.findCard(c => this.matches(topCard, c))
     } else if (drawCount !== 0) {
