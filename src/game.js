@@ -23,7 +23,11 @@ class Game {
 
   play () {
     const card = this.players[this.currentPlayer].choose()
-    this.playCard(card)
+    if (card !== undefined) this.playCard(card)
+    else {
+      this.deck.draw(this.drawCount || 1)
+      this.play()
+    }
   }
 
   playCard (card) {
