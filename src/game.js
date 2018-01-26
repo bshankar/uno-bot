@@ -38,6 +38,11 @@ class Game {
     else this.currentColor = card.color
     const index = this.players[this.currentPlayer].hand.indexOf(card)
     this.players[this.currentPlayer].hand.splice(index, 1)
+    if (this.players[this.currentPlayer].hand.length === 0) {
+      this.winningSequence.push(this.players[this.currentPlayer])
+      this.players.splice(this.currentPlayer, 1)
+      this.currentPlayer = (this.currentPlayer + this.players.length - 1) % this.players.length
+    }
     if (this.top.value === 'skip') this.skipChance()
     else if (this.top.value === 'reverse') this.reverse()
     else if (this.top.value[0] === '+') this.drawTwoOrFour()
