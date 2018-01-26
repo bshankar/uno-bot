@@ -78,7 +78,6 @@ class Game {
       player.hand = player.hand.concat(this.deck.draw(this.drawCount))
       this.drawCount = 0
     } else this.top = found
-    this.currentPlayer = this.nextPlayer(1)
   }
 
   drawHelper (stringToMatch) {
